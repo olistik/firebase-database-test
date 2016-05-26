@@ -1,0 +1,45 @@
+<html>
+  <head>
+
+  </head>
+  <body>
+
+    <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyBZxc0Il6g5i9hZM1rLB6WLOOJYe0QofPQ",
+        authDomain: "launchpage-collector.firebaseapp.com",
+        databaseURL: "https://launchpage-collector.firebaseio.com",
+        storageBucket: "",
+      };
+      firebase.initializeApp(config);
+    </script>
+    <script>
+      function writeNewEmail(email) {
+        var emailData = {
+          email: email
+        };
+        // Get a key for a new e-mail.
+        var newEmailKey = firebase.database().ref().child('emails').push().key;
+        // Write the new post's data simultaneously in the posts list and the user's post list.
+        var updates = {};
+        updates['/emails/' + newEmailKey] = emailData;
+
+        return firebase.database().ref().update(updates).then(function() {
+          console.log("success", email);
+        }).catch(function(error) {
+          console.log("error", error);
+        });
+      }
+
+      function test() {
+        writeNewEmail("foo@bar.com").then(function() {
+          // success
+        }).catch(function(error) {
+          // error
+        });
+      }
+    </script>
+  </body>
+</html>
